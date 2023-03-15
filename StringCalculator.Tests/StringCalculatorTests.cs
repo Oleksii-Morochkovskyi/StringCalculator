@@ -19,9 +19,7 @@ namespace StringCalculatorTest
         {
             var value = "";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result == 0);
         }
@@ -31,9 +29,7 @@ namespace StringCalculatorTest
         {
             var value = "1";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result == Convert.ToInt32(value));
         }
@@ -42,34 +38,28 @@ namespace StringCalculatorTest
         {
             var value = "1,2";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result, Is.Positive);
         }
 
         [Test]
-        public void Add_FewNumbersSeparetedByComma_ReturnsTheirSum()
+        public void Add_FewNumbersSeparatedByComma_ReturnsTheirSum()
         {
             var value = "1,2,3";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result, Is.Positive);
         }
 
 
         [Test]
-        public void Add_NumbersSeparetedByNewLine_ReturnsTheirSum()
+        public void Add_NumbersSeparatedByNewLine_ReturnsTheirSum()
         {
             var value = "1\n2";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result, Is.Positive);
         }
@@ -79,9 +69,7 @@ namespace StringCalculatorTest
         {
             var value = "//;1;4;5";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result, Is.Positive);
         }
@@ -91,7 +79,6 @@ namespace StringCalculatorTest
         {
             var value = "1,-2,4";
 
-
             Assert.Throws<Exception>(() => _calculator.Add(value));
         }
 
@@ -100,9 +87,7 @@ namespace StringCalculatorTest
         {
             var value = "1005,5";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result < 1000);
         }
@@ -112,9 +97,7 @@ namespace StringCalculatorTest
         {
             var value = "//[***]1***2\n3";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result, Is.Positive);
         }
@@ -124,9 +107,7 @@ namespace StringCalculatorTest
         {
             var value = "//[***][+]+1***4\n5";
 
-
             var result = _calculator.Add(value);
-
 
             Assert.That(result, Is.Positive);
         }

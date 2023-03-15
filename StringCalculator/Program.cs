@@ -7,18 +7,18 @@ namespace StringCalculator
     {
         static void Main(string[] args)
         {
-            StringCalculatorWorker calc = new StringCalculatorWorker();
+            StringCalculatorWorker calculator = new StringCalculatorWorker();
 
             Console.WriteLine("Enter your string: ");
-            string str = Console.ReadLine();
-
+            string input = Console.ReadLine();
+            
             try
             {
-                Console.WriteLine("Result: " + calc.Add(str));
+                Console.WriteLine("Result: " + calculator.Add(input));
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(exception.Message);
             }
 
         }
