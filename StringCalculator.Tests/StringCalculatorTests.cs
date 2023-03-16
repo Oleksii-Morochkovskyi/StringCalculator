@@ -4,7 +4,6 @@ using StringCalculator;
 
 namespace StringCalculatorTest
 {
-
     public class StringCalculatorTests
     {
         private StringCalculatorWorker _calculator;

@@ -1,98 +1,98 @@
 ﻿using System;
-using System.Linq;
 
 namespace StringCalculator
 {
     public class StringCalculatorWorker
     {
-        private string _numbers;
-        private string separator = ",";
+        private readonly string _separator = ",";
+        private readonly int _maxNumber = 1000;
+
         public int Add(string numbers)
         {
-            _numbers = numbers;
 
-            if (_numbers.Length == 0) return 0;
+            if (numbers.Length == 0) return 0;
 
-            if (_numbers.Length == 1) return Convert.ToInt32(_numbers);
+            if (numbers.Length == 1) return int.Parse(numbers);
 
-            _numbers = _numbers.Replace("\n", separator);
+            numbers = numbers.Replace("\n", _separator);
 
-            if (_numbers.StartsWith("//")) AddSeparator();
+            if (numbers.StartsWith("//")) ChangeSeparatorOnDefault(ref numbers);
 
-            return CalculateSum();
+            return CalculateSum(numbers);
         }
 
-        public void AddSeparator()
+        public void ChangeSeparatorOnDefault(ref string numbers)
         {
-            if (_numbers[2] == '[' && _numbers.Contains(']'))
+            numbers = numbers.Remove(0, 2);
+            if (numbers[0] == '[' && numbers.Contains(']'))
             {
-                string tempSeparator = "";
+                string tempSeparator;
                 bool isMoreSeparators = true;
-                _numbers = _numbers.Remove(0, 2);
-                              
+
                 while (isMoreSeparators)
                 {
-                    var LeftBracketIndex = _numbers.IndexOf('[');
-                    var RightBracketIndex = _numbers.IndexOf(']');
+                    var leftBracketIndex = numbers.IndexOf('[');
+                    var rightBracketIndex = numbers.IndexOf(']');
+                    var separatorLength = rightBracketIndex - leftBracketIndex - 1;
 
-                    tempSeparator = _numbers.Substring(LeftBracketIndex + 1, RightBracketIndex - LeftBracketIndex - 1);
-                    
-                    if (_numbers[LeftBracketIndex] == _numbers[LeftBracketIndex + 1])
-                    {
-                        tempSeparator.Insert(0,"[");
-                    }
-                    if (_numbers[RightBracketIndex] == _numbers[RightBracketIndex + 1])
-                    {
-                        tempSeparator += ']';
-                    }
 
-                    _numbers = _numbers.Remove(LeftBracketIndex, tempSeparator.Length + 2);
-                    _numbers = _numbers.Replace(tempSeparator, separator);
-                                     
-                    if (_numbers.IndexOf('[') == -1)
-                    {
-                        isMoreSeparators = false;
-                        break;
-                    }
-                }              
+                    tempSeparator = numbers.Substring(leftBracketIndex + 1, separatorLength);
+                    tempSeparator = CheckOnBracketExceptions(numbers, leftBracketIndex, rightBracketIndex, tempSeparator);
+
+                    numbers = numbers.Remove(leftBracketIndex, tempSeparator.Length + 2);
+                    numbers = numbers.Replace(tempSeparator, _separator);
+
+                    if (numbers.IndexOf('[') == -1) break;
+
+                }
             }
-            else
-            {
-                _numbers = _numbers.Replace(_numbers[2], ','); 
-                _numbers = _numbers.Substring(3);
-            }
+            else numbers = numbers.Replace(numbers[0], ',');
         }
-        public int CalculateSum()
+
+        public string CheckOnBracketExceptions(string numbers, int leftBracketIndex, int rightBracketIndex, string separator)
+        {
+
+            if (numbers[leftBracketIndex] == numbers[leftBracketIndex + 1])
+            {
+                separator.Insert(0, "[");
+            }
+            if (numbers[rightBracketIndex] == numbers[rightBracketIndex + 1])
+            {
+                separator += ']';
+            }
+            return separator;
+        }
+
+        public int CalculateSum(string numbers)
         {
             int result = 0;
-            var separatedNumbers = _numbers.Split(separator, StringSplitOptions.None);
+            var separatedNumbers = numbers.Split(_separator, StringSplitOptions.None);
 
             for (int i = 0; i < separatedNumbers.Length; i++)
             {
-                if (separatedNumbers[i] != "")
-                {
-                    int currentNumber = Convert.ToInt32(separatedNumbers[i]);
+                if (separatedNumbers[i] == "") continue;
+                
+                int currentNumber = int.Parse(separatedNumbers[i]);
 
-                    if (currentNumber < 0)
-                    {
-                        throw new Exception(ThrowExceptionIfNumberIsNegative(i, separatedNumbers));
-                    }
+                if (currentNumber < 0) ThrowExceptionIfNumberIsNegative(i, separatedNumbers);
 
-                    if (currentNumber > 1000) continue;
+                if (currentNumber > _maxNumber) continue;
 
-                    result += currentNumber;
-                }
+                result += currentNumber;
+
             }
             return result;
         }
+
         public string ThrowExceptionIfNumberIsNegative(int currentIndex, string[] separatedNumbers)
         {
             string exceptionMessage = "negatives are not allowed: ";
+            
             for (int i = currentIndex; i < separatedNumbers.Length; i++)
             {
                 if (separatedNumbers[i] == "") continue;
 
-                int currentNumber = Int32.Parse(separatedNumbers[i]);
+                int currentNumber = int.Parse(separatedNumbers[i]);
 
                 if (currentNumber < 0)
                 {
@@ -100,7 +100,7 @@ namespace StringCalculator
                     exceptionMessage += " ";
                 }
             }
-            return exceptionMessage;
+            throw new Exception(exceptionMessage);
         }
     }
 }
