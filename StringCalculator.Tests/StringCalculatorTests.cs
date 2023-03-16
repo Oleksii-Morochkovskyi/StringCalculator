@@ -94,7 +94,7 @@ namespace StringCalculatorTest
         [Test]
         public void Add_StringWithNewMultipleCharDelimeter_ReturnsSumOfNumbers()
         {
-            var value = "//[***]1***2\\n3";
+            var value = "//[***]\\n1***2,3";
 
             var result = _calculator.Add(value);
 
@@ -104,7 +104,7 @@ namespace StringCalculatorTest
         [Test]
         public void Add_StringWithFewNewMultipleCharDelimeters_ReturnsSumOfNumbers()
         {
-            var value = "//[***][+]+1***2\\n3";
+            var value = "//[***][+]\\n1***2+3";
 
             var result = _calculator.Add(value);
 

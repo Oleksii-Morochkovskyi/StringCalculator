@@ -37,56 +37,44 @@ namespace StringCalculator
 
         public string ProcessMultipleSeparators(string numbers)
         {
-            string tempSeparator;
 
-            while (true)
-            {
-                var leftBracketIndex = numbers.IndexOf('[');
-                var rightBracketIndex = numbers.IndexOf(']');
-                var separatorLength = rightBracketIndex - leftBracketIndex - 1;
+            var leftBracketIndex = numbers.IndexOf('[');
+            var rightBracketIndex = numbers.IndexOf(']');
 
-                tempSeparator = numbers.Substring(leftBracketIndex + 1, separatorLength);
-                tempSeparator = CheckOnBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex, tempSeparator);
-
-                var lengthOfSeparatorAndBrackets = tempSeparator.Length + 2;
-
-                numbers = numbers.Remove(leftBracketIndex, lengthOfSeparatorAndBrackets);
-                numbers = numbers.Replace(tempSeparator, _defaultSeparator);
-
-                if (!numbers.Contains('[') && !numbers.Contains(']')) break;
-            }
+            numbers = CheckOnBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
 
             return numbers;
         }
 
-        public string CheckOnBracketRepetitions(string numbers, int leftBracketIndex, int rightBracketIndex, string separator)
+        public string CheckOnBracketRepetitions(string numbers, int leftBracketIndex, int rightBracketIndex)
         {
-            if (numbers[leftBracketIndex] == numbers[leftBracketIndex + 1])
+            if (numbers[rightBracketIndex + 1] == '[' || numbers[rightBracketIndex + 1] == char.Parse(_defaultSeparator))
             {
-                return separator.Insert(0, "[");
+                var substringLength = numbers.IndexOf(']', rightBracketIndex) - leftBracketIndex - 1;
+                var separator = numbers.Substring(leftBracketIndex + 1, substringLength);
+                var lengthOfSeparatorAndBrackets = separator.Length + 2;
+
+                numbers = numbers.Remove(leftBracketIndex, lengthOfSeparatorAndBrackets);
+                numbers = numbers.Replace(separator, _defaultSeparator);
+
+                if (numbers.IndexOf('[') != -1 || numbers.IndexOf(']') != -1)
+                {
+                    leftBracketIndex = numbers.IndexOf('[');
+                    rightBracketIndex = numbers.IndexOf(']');
+
+                    numbers = CheckOnBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+                }
             }
 
-            if (numbers[rightBracketIndex] == numbers[rightBracketIndex + 1])
+            else if (numbers.IndexOf(']', rightBracketIndex + 1) != -1)
             {
-                return separator += ']';
+                rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
+                leftBracketIndex = numbers.IndexOf('[');
+
+                numbers = CheckOnBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
             }
 
-            if (numbers.IndexOf('[', leftBracketIndex + 1) == -1 && numbers.IndexOf(']', rightBracketIndex + 1) != -1)
-            {
-                var substringLength = numbers.IndexOf(',') - rightBracketIndex - 1;
-
-                return separator += numbers.Substring(rightBracketIndex, substringLength);
-            }
-
-            if (numbers.IndexOf(']', rightBracketIndex + 1) < numbers.IndexOf('[', rightBracketIndex + 1))
-            {
-                var substringLength = numbers.IndexOf('[', leftBracketIndex + 1) - rightBracketIndex - 1;
-                var separatorLength = numbers.LastIndexOf(']', rightBracketIndex + 1, substringLength);
-
-                return separator += numbers.Substring(rightBracketIndex, separatorLength);
-            }
-
-            return separator;
+            return numbers;
         }
 
         public int CalculateSum(string numbers)
