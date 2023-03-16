@@ -30,7 +30,7 @@ namespace StringCalculatorTest
 
             var result = _calculator.Add(value);
 
-            Assert.That(result == Convert.ToInt32(value));
+            Assert.That(result == int.Parse(value));
         }
         [Test]
         public void Add_StringWithTwoNumbersAndSeparator_ReturnsTheirSum()
@@ -39,7 +39,7 @@ namespace StringCalculatorTest
 
             var result = _calculator.Add(value);
 
-            Assert.That(result, Is.Positive);
+            Assert.That(result == 3);
         }
 
         [Test]
@@ -49,28 +49,28 @@ namespace StringCalculatorTest
 
             var result = _calculator.Add(value);
 
-            Assert.That(result, Is.Positive);
+            Assert.That(result == 6);
         }
 
 
         [Test]
         public void Add_NumbersSeparatedByNewLine_ReturnsTheirSum()
         {
-            var value = "1\n2";
+            var value = "1\\n2";
 
             var result = _calculator.Add(value);
 
-            Assert.That(result, Is.Positive);
+            Assert.That(result == 3);
         }
 
         [Test]
         public void Add_StringWithChangedDelimeter_ReturnsSum()
         {
-            var value = "//;1;4;5";
+            var value = "//;1;2;3";
 
             var result = _calculator.Add(value);
 
-            Assert.That(result, Is.Positive);
+            Assert.That(result == 6);
         }
 
         [Test]
@@ -88,27 +88,27 @@ namespace StringCalculatorTest
 
             var result = _calculator.Add(value);
 
-            Assert.That(result < 1000);
+            Assert.That(result == 5);
         }
 
         [Test]
         public void Add_StringWithNewMultipleCharDelimeter_ReturnsSumOfNumbers()
         {
-            var value = "//[***]1***2\n3";
+            var value = "//[***]1***2\\n3";
 
             var result = _calculator.Add(value);
 
-            Assert.That(result, Is.Positive);
+            Assert.That(result == 6);
         }
 
         [Test]
         public void Add_StringWithFewNewMultipleCharDelimeters_ReturnsSumOfNumbers()
         {
-            var value = "//[***][+]+1***4\n5";
+            var value = "//[***][+]+1***2\\n3";
 
             var result = _calculator.Add(value);
 
-            Assert.That(result, Is.Positive);
+            Assert.That(result == 6);
         }
     }
 }
