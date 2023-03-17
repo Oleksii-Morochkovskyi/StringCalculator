@@ -39,16 +39,16 @@ namespace StringCalculator
             var leftBracketIndex = numbers.IndexOf('[');
             var rightBracketIndex = numbers.IndexOf(']');
 
-            numbers = CheckBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+            numbers = ReplaceBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
 
             return numbers;
         }
 
-        public string CheckBracketRepetitions(string numbers, int leftBracketIndex, int rightBracketIndex)
+        public string ReplaceBracketRepetitions(string numbers, int leftBracketIndex, int rightBracketIndex)
         {
-            bool IsDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(_defaultSeparator);
+            bool isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(_defaultSeparator);
             
-            if (numbers[rightBracketIndex + 1] == '[' || IsDefaultSeparator)
+            if (numbers[rightBracketIndex + 1] == '[' || isDefaultSeparator)
             {
                 var substringLength = numbers.IndexOf(']', rightBracketIndex) - leftBracketIndex - 1;
                 var separator = numbers.Substring(leftBracketIndex + 1, substringLength);
@@ -62,7 +62,7 @@ namespace StringCalculator
                     leftBracketIndex = numbers.IndexOf('[');
                     rightBracketIndex = numbers.IndexOf(']');
 
-                    numbers = CheckBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+                    numbers = ReplaceBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
                 }
             }
 
@@ -71,7 +71,7 @@ namespace StringCalculator
                 rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
                 leftBracketIndex = numbers.IndexOf('[');
 
-                numbers = CheckBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+                numbers = ReplaceBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
             }
 
             return numbers;
