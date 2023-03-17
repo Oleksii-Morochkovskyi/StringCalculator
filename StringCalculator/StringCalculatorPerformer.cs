@@ -1,32 +1,47 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StringCalculator
 {
     public class StringCalculatorWorker
     {
-        private readonly string _defaultSeparator = ",";
-        private readonly int _maxNumber = 1000;
+        private const string DefaultSeparator = ",";
+        private const int MaxNumber = 1000;
+        private List<string> customSeparators = new List<string> { DefaultSeparator };
 
         public int Add(string numbers)
         {
-            if (numbers.Length == 0) return 0;
+            if (string.IsNullOrEmpty(numbers))
+            {
+                return 0;
+            }
 
-            if (numbers.Length == 1) return int.Parse(numbers);
+            numbers = numbers.Replace(@"\n", DefaultSeparator);
 
-            numbers = numbers.Replace(@"\n", _defaultSeparator);
+            if (numbers.StartsWith("//"))
+            {
+                numbers = ExtractCustomSeparator(numbers);
+            }
+            
+            var separators = customSeparators.ToArray();
 
-            if (numbers.StartsWith("//")) numbers = ReplaceCustomSeparatorsByDefaultOne(numbers);
+            var separatedNumbers = numbers.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            var convertedNumbers = Array.ConvertAll(separatedNumbers, s => int.Parse(s));
 
-            return CalculateSum(numbers);
+            return CalculateSum(convertedNumbers);
         }
 
-        public string ReplaceCustomSeparatorsByDefaultOne(string numbers)
+        public string ExtractCustomSeparator(string numbers)
         {
             numbers = numbers.Remove(0, 2);
 
             if (numbers[0] == '[' && numbers.Contains(']'))
             {
-                return ProcessMultipleSeparators(numbers);
+                var leftBracketIndex = numbers.IndexOf('[');
+                var rightBracketIndex = numbers.IndexOf(']');
+
+                return GetCustomSeparators(numbers, leftBracketIndex, rightBracketIndex);
             }
             else
             {
@@ -34,35 +49,25 @@ namespace StringCalculator
             }
         }
 
-        public string ProcessMultipleSeparators(string numbers)
+        public string GetCustomSeparators(string numbers, int leftBracketIndex, int rightBracketIndex)
         {
-            var leftBracketIndex = numbers.IndexOf('[');
-            var rightBracketIndex = numbers.IndexOf(']');
+            bool isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(DefaultSeparator);
 
-            numbers = ReplaceBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
-
-            return numbers;
-        }
-
-        public string ReplaceBracketRepetitions(string numbers, int leftBracketIndex, int rightBracketIndex)
-        {
-            bool isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(_defaultSeparator);
-            
             if (numbers[rightBracketIndex + 1] == '[' || isDefaultSeparator)
             {
                 var substringLength = numbers.IndexOf(']', rightBracketIndex) - leftBracketIndex - 1;
                 var separator = numbers.Substring(leftBracketIndex + 1, substringLength);
                 var lengthOfSeparatorAndBrackets = separator.Length + 2;
 
+                customSeparators.Add(separator);
                 numbers = numbers.Remove(leftBracketIndex, lengthOfSeparatorAndBrackets);
-                numbers = numbers.Replace(separator, _defaultSeparator);
 
                 if (numbers.IndexOf('[') != -1 || numbers.IndexOf(']') != -1)
                 {
                     leftBracketIndex = numbers.IndexOf('[');
                     rightBracketIndex = numbers.IndexOf(']');
 
-                    numbers = ReplaceBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+                    numbers = GetCustomSeparators(numbers, leftBracketIndex, rightBracketIndex);
                 }
             }
 
@@ -71,46 +76,31 @@ namespace StringCalculator
                 rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
                 leftBracketIndex = numbers.IndexOf('[');
 
-                numbers = ReplaceBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+                numbers = GetCustomSeparators(numbers, leftBracketIndex, rightBracketIndex);
             }
 
             return numbers;
         }
 
-        public int CalculateSum(string numbers)
+        public int CalculateSum(int[] numbers)
         {
-            int result = 0;
-            var separatedNumbers = numbers.Split(_defaultSeparator, StringSplitOptions.None);
-
-            for (int i = 0; i < separatedNumbers.Length; i++)
+            if (numbers.Any(p => p < 0))
             {
-                if (separatedNumbers[i] == "" || int.Parse(separatedNumbers[i]) > _maxNumber) continue;
-
-                int currentNumber = int.Parse(separatedNumbers[i]);
-
-                if (currentNumber < 0) ThrowExceptionIfNumberIsNegative(i, separatedNumbers);
-
-                result += currentNumber;
+                ThrowExceptionIfNumberIsNegative(numbers);
             }
 
-            return result;
+            return numbers.Except(numbers.Where(p => p > MaxNumber)).Sum();
         }
 
-        public string ThrowExceptionIfNumberIsNegative(int currentIndex, string[] separatedNumbers)
+        public void ThrowExceptionIfNumberIsNegative(int[] separatedNumbers)
         {
             string exceptionMessage = "negatives are not allowed: ";
+            var negativeNumbers = separatedNumbers.Where(p => p < 0);
 
-            for (int i = currentIndex; i < separatedNumbers.Length; i++)
+            foreach (var number in negativeNumbers)
             {
-                if (separatedNumbers[i] == "") continue;
-
-                int currentNumber = int.Parse(separatedNumbers[i]);
-
-                if (currentNumber < 0)
-                {
-                    exceptionMessage += currentNumber;
-                    exceptionMessage += " ";
-                }
+                exceptionMessage += number;
+                exceptionMessage += " ";
             }
 
             throw new Exception(exceptionMessage);

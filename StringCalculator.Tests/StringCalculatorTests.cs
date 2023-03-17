@@ -56,7 +56,7 @@ namespace StringCalculatorTest
         [Test]
         public void Add_NumbersSeparatedByNewLine_ReturnsTheirSum()
         {
-            var value = "1\\n2";
+            var value = @"1\n2";
 
             var result = _calculator.Add(value);
 
@@ -94,7 +94,7 @@ namespace StringCalculatorTest
         [Test]
         public void Add_StringWithNewMultipleCharDelimeter_ReturnsSumOfNumbers()
         {
-            var value = "//[***]\\n1***2,3";
+            var value = @"//[***]\n1***2,3";
 
             var result = _calculator.Add(value);
 
@@ -104,7 +104,7 @@ namespace StringCalculatorTest
         [Test]
         public void Add_StringWithFewNewMultipleCharDelimeters_ReturnsSumOfNumbers()
         {
-            var value = "//[***][+]\\n1***2+3";
+            var value = @"//[***][+]\n1***2+3";
 
             var result = _calculator.Add(value);
 
