@@ -9,19 +9,18 @@ namespace StringCalculator
 
         public int Add(string numbers)
         {
-
             if (numbers.Length == 0) return 0;
 
             if (numbers.Length == 1) return int.Parse(numbers);
 
             numbers = numbers.Replace(@"\n", _defaultSeparator);
 
-            if (numbers.StartsWith("//")) numbers = ChangeSeparatorsOnDefault(numbers);
+            if (numbers.StartsWith("//")) numbers = ReplaceCustomSeparatorsByDefaultOne(numbers);
 
             return CalculateSum(numbers);
         }
 
-        public string ChangeSeparatorsOnDefault(string numbers)
+        public string ReplaceCustomSeparatorsByDefaultOne(string numbers)
         {
             numbers = numbers.Remove(0, 2);
 
@@ -37,18 +36,19 @@ namespace StringCalculator
 
         public string ProcessMultipleSeparators(string numbers)
         {
-
             var leftBracketIndex = numbers.IndexOf('[');
             var rightBracketIndex = numbers.IndexOf(']');
 
-            numbers = CheckOnBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+            numbers = CheckBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
 
             return numbers;
         }
 
-        public string CheckOnBracketRepetitions(string numbers, int leftBracketIndex, int rightBracketIndex)
+        public string CheckBracketRepetitions(string numbers, int leftBracketIndex, int rightBracketIndex)
         {
-            if (numbers[rightBracketIndex + 1] == '[' || numbers[rightBracketIndex + 1] == char.Parse(_defaultSeparator))
+            bool IsDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(_defaultSeparator);
+            
+            if (numbers[rightBracketIndex + 1] == '[' || IsDefaultSeparator)
             {
                 var substringLength = numbers.IndexOf(']', rightBracketIndex) - leftBracketIndex - 1;
                 var separator = numbers.Substring(leftBracketIndex + 1, substringLength);
@@ -62,16 +62,16 @@ namespace StringCalculator
                     leftBracketIndex = numbers.IndexOf('[');
                     rightBracketIndex = numbers.IndexOf(']');
 
-                    numbers = CheckOnBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+                    numbers = CheckBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
                 }
             }
 
-            else if (numbers.IndexOf(']', rightBracketIndex + 1) != -1)
+            if (numbers.IndexOf(']', rightBracketIndex + 1) != -1)
             {
                 rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
                 leftBracketIndex = numbers.IndexOf('[');
 
-                numbers = CheckOnBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
+                numbers = CheckBracketRepetitions(numbers, leftBracketIndex, rightBracketIndex);
             }
 
             return numbers;
