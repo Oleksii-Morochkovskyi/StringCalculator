@@ -2,15 +2,15 @@
 
 namespace StringCalculator
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            StringCalculatorWorker calculator = new StringCalculatorWorker();
+            var calculator = new StringCalculatorWorker();
 
             Console.WriteLine("Enter your string: ");
-            string input = Console.ReadLine();
-            
+            var input = Console.ReadLine();
+
             try
             {
                 Console.WriteLine("Result: " + calculator.Add(input));

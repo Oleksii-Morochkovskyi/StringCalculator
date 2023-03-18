@@ -1,12 +1,12 @@
 using System;
 using NUnit.Framework;
-using StringCalculator;
 
-namespace StringCalculatorTest
+namespace StringCalculator.Tests
 {
     public class StringCalculatorTests
     {
         private StringCalculatorWorker _calculator;
+        
         [SetUp]
         public void Setup()
         {
@@ -32,6 +32,7 @@ namespace StringCalculatorTest
 
             Assert.That(result == int.Parse(value));
         }
+
         [Test]
         public void Add_StringWithTwoNumbersAndSeparator_ReturnsTheirSum()
         {
@@ -52,7 +53,6 @@ namespace StringCalculatorTest
             Assert.That(result == 6);
         }
 
-
         [Test]
         public void Add_NumbersSeparatedByNewLine_ReturnsTheirSum()
         {
@@ -64,7 +64,7 @@ namespace StringCalculatorTest
         }
 
         [Test]
-        public void Add_StringWithChangedDelimeter_ReturnsSum()
+        public void Add_StringWithChangedDelimiter_ReturnsSum()
         {
             var value = "//;1;2;3";
 
@@ -74,7 +74,7 @@ namespace StringCalculatorTest
         }
 
         [Test]
-        public void Add_ContainsNegativeNumbers_ThrowsExeption()
+        public void Add_ContainsNegativeNumbers_ThrowsException()
         {
             var value = "1,-2,4";
 
@@ -92,7 +92,7 @@ namespace StringCalculatorTest
         }
 
         [Test]
-        public void Add_StringWithNewMultipleCharDelimeter_ReturnsSumOfNumbers()
+        public void Add_StringWithNewMultipleCharDelimiter_ReturnsSumOfNumbers()
         {
             var value = @"//[***]\n1***2,3";
 
@@ -102,7 +102,7 @@ namespace StringCalculatorTest
         }
 
         [Test]
-        public void Add_StringWithFewNewMultipleCharDelimeters_ReturnsSumOfNumbers()
+        public void Add_StringWithFewNewMultipleCharDelimiters_ReturnsSumOfNumbers()
         {
             var value = @"//[***][+]\n1***2+3";
 

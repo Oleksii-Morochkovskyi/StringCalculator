@@ -8,10 +8,12 @@ namespace StringCalculator
     {
         private const string DefaultSeparator = ",";
         private const int MaxNumber = 1000;
-        private List<string> _customSeparators = new List<string> { DefaultSeparator };
+        private List<string> _customSeparators;
 
         public int Add(string numbers)
         {
+            _customSeparators = new List<string>() { DefaultSeparator };
+
             if (string.IsNullOrEmpty(numbers))
             {
                 return 0;
@@ -52,7 +54,7 @@ namespace StringCalculator
 
         public string GetCustomSeparators(string numbers, int leftBracketIndex, int rightBracketIndex)
         {
-            bool isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(DefaultSeparator);
+            var isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(DefaultSeparator);
 
             if (numbers[rightBracketIndex + 1] == '[' || isDefaultSeparator)
             {
@@ -102,7 +104,7 @@ namespace StringCalculator
 
         public void ThrowExceptionIfNumberIsNegative(int[] separatedNumbers)
         {
-            string exceptionMessage = "negatives are not allowed: ";
+            var exceptionMessage = "negatives are not allowed: ";
             var negativeNumbers = separatedNumbers.Where(p => p < 0);
 
             foreach (var number in negativeNumbers)
