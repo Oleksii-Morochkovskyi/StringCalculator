@@ -6,7 +6,7 @@ namespace StringCalculator.Tests
     public class StringCalculatorTests
     {
         private StringCalculatorWorker _calculator;
-        
+
         [SetUp]
         public void Setup()
         {
@@ -105,6 +105,16 @@ namespace StringCalculator.Tests
         public void Add_StringWithFewNewMultipleCharDelimiters_ReturnsSumOfNumbers()
         {
             var value = @"//[***][+]\n1***2+3";
+
+            var result = _calculator.Add(value);
+
+            Assert.That(result == 6);
+        }
+
+        [Test]
+        public void Add_StringWithBracketsInsideOfDelimiters_ReturnsSumOfNumbers()
+        {
+            var value = @"//[.[].][*[]*]\n1.[].2*[]*3";
 
             var result = _calculator.Add(value);
 

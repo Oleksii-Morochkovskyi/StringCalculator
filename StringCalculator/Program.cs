@@ -19,7 +19,6 @@ namespace StringCalculator
             {
                 Console.WriteLine(exception.Message);
             }
-
         }
     }
 }
