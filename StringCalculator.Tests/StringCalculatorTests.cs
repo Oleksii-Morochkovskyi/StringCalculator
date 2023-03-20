@@ -66,7 +66,7 @@ namespace StringCalculator.Tests
         [Test]
         public void Add_StringWithChangedDelimiter_ReturnsSum()
         {
-            var value = "//;1;2;3";
+            var value = @"//;\n1;2;3";
 
             var result = _calculator.Add(value);
 

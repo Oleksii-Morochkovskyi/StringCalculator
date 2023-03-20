@@ -15,11 +15,15 @@ namespace StringCalculator
                 return 0;
             }
 
-            var customSeparators = new List<string>() {DefaultSeparator, @"\n"};
+            var customSeparators = new List<string>() { DefaultSeparator, @"\n" };
 
             if (numbers.StartsWith("//"))
             {
-                (numbers, customSeparators) = ExtractCustomSeparators(numbers, customSeparators);
+                customSeparators = ExtractCustomSeparators(numbers, customSeparators);
+
+                var substringLength = numbers.IndexOf(@"\n");
+
+                numbers = numbers.Remove(0, substringLength);
             }
 
             var separators = customSeparators.ToArray();
@@ -30,63 +34,56 @@ namespace StringCalculator
             return CalculateSum(convertedNumbers);
         }
 
-        public (string, List<string>) ExtractCustomSeparators(string numbers, List<string> separators)
+        public List<string> ExtractCustomSeparators(string numbers, List<string> separators)
         {
-
-            numbers = numbers.Remove(0, 2); //removes // from string
-
-            if (numbers[0] == '[' && numbers.Contains(']'))
+            if (numbers[2] == '[' && numbers.Contains(']'))
             {
                 var leftBracketIndex = numbers.IndexOf('[');
                 var rightBracketIndex = numbers.IndexOf(']');
 
-                (numbers, separators) = GetCustomSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
+                separators = GetCustomSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
             }
 
-            separators.Add(numbers[0].ToString());
+            separators.Add(numbers[2].ToString()); //custom separator in numbers starts from index = 2
 
-            return (numbers, separators);
+            return separators;
         }
 
-        public (string, List<string>) GetCustomSeparator(string numbers, int leftBracketIndex, int rightBracketIndex, List<string> separators)
+        public List<string> GetCustomSeparator(string numbers, int leftBracketIndex, int rightBracketIndex, List<string> separators)
         {
             var isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(DefaultSeparator);
             var isNewLineSeparator = numbers.Substring(rightBracketIndex + 1, 2) == @"\n";
-            
+
             if (numbers[rightBracketIndex + 1] == '[' || isDefaultSeparator || isNewLineSeparator)
             {
-                (numbers, separators) = AddSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
+                separators = AddSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
             }
-            
+
             if (numbers.IndexOf(']', rightBracketIndex + 1) != -1) //rightBracketIndex + 1 - start from next element
             {
                 rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
-                leftBracketIndex = numbers.IndexOf('[');
-
-                (numbers, separators) = GetCustomSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
+                separators = GetCustomSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
             }
 
-            return (numbers, separators);
+            return separators;
         }
 
-        public (string, List<string>) AddSeparator(string numbers, int leftBracketIndex, int rightBracketIndex, List<string> separators)
+        public List<string> AddSeparator(string numbers, int leftBracketIndex, int rightBracketIndex, List<string> separators)
         {
             var substringLength = numbers.IndexOf(']', rightBracketIndex) - leftBracketIndex - 1;
             var separator = numbers.Substring(leftBracketIndex + 1, substringLength);
-            var lengthOfSeparatorAndBrackets = separator.Length + 2;
 
-            numbers = numbers.Remove(leftBracketIndex, lengthOfSeparatorAndBrackets);
             separators.Add(separator);
 
-            if (numbers.Contains('[') || numbers.Contains(']'))
+            if (numbers.IndexOf('[', rightBracketIndex + 1) != -1 || numbers.IndexOf('[', rightBracketIndex + 1) != -1)
             {
-                leftBracketIndex = numbers.IndexOf('[');
-                rightBracketIndex = numbers.IndexOf(']');
+                leftBracketIndex = numbers.IndexOf('[', rightBracketIndex + 1);
+                rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
 
-                (numbers, separators) = GetCustomSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
+                separators = GetCustomSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
             }
 
-            return (numbers, separators);
+            return separators;
         }
 
         public int CalculateSum(int[] numbers)
