@@ -105,11 +105,11 @@ namespace StringCalculator
             return numbers.Where(p => p <= maxNumber).Sum();
         }
 
-        public void ThrowExceptionIfNumberIsNegative(int[] separatedNumbers)
+        public void ThrowExceptionIfNumberIsNegative(int[] negatives)
         {
             var exceptionMessage = "negatives are not allowed: ";
 
-            var message = string.Join(" ", separatedNumbers);
+            var message = string.Join(" ", negatives);
 
             throw new Exception(exceptionMessage + message);
         }
