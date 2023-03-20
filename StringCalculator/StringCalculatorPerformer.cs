@@ -77,7 +77,7 @@ namespace StringCalculator
 
             separators.Add(separator);
 
-            if (numbers.IndexOf('[', rightBracketIndex + 1) != -1 || numbers.IndexOf('[', rightBracketIndex + 1) != -1)
+            if (numbers.IndexOf('[', rightBracketIndex + 1) != -1)
             {
                 leftBracketIndex = numbers.IndexOf('[', rightBracketIndex + 1);
                 rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
