@@ -15,9 +15,7 @@ namespace StringCalculator
                 return 0;
             }
 
-            numbers = numbers.Replace(@"\n", DefaultSeparator);
-
-            var customSeparators = new List<string>() {DefaultSeparator};
+            var customSeparators = new List<string>() {DefaultSeparator, @"\n"};
 
             if (numbers.StartsWith("//"))
             {
@@ -53,12 +51,13 @@ namespace StringCalculator
         public (string, List<string>) GetCustomSeparator(string numbers, int leftBracketIndex, int rightBracketIndex, List<string> separators)
         {
             var isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(DefaultSeparator);
-
-            if (numbers[rightBracketIndex + 1] == '[' || isDefaultSeparator)
+            var isNewLineSeparator = numbers.Substring(rightBracketIndex + 1, 2) == @"\n";
+            
+            if (numbers[rightBracketIndex + 1] == '[' || isDefaultSeparator || isNewLineSeparator)
             {
                 (numbers, separators) = AddSeparator(numbers, leftBracketIndex, rightBracketIndex, separators);
             }
-
+            
             if (numbers.IndexOf(']', rightBracketIndex + 1) != -1) //rightBracketIndex + 1 - start from next element
             {
                 rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
