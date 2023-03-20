@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringCalculator.Tests", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsolePerformer.Tests", "ConsolePerformer.Tests\ConsolePerformer.Tests.csproj", "{4965A286-711D-47DD-AD8C-7956F9CB9AF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsolePerformer", "ConsolePerformer\ConsolePerformer.csproj", "{7AC17576-186A-407E-A745-6CDFC295EAA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4965A286-711D-47DD-AD8C-7956F9CB9AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4965A286-711D-47DD-AD8C-7956F9CB9AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4965A286-711D-47DD-AD8C-7956F9CB9AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC17576-186A-407E-A745-6CDFC295EAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC17576-186A-407E-A745-6CDFC295EAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AC17576-186A-407E-A745-6CDFC295EAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC17576-186A-407E-A745-6CDFC295EAA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

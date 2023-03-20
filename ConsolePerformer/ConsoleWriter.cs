@@ -3,9 +3,9 @@
 
 namespace StringCalculator
 {
-    class ConsolePerformer
+    public class ConsoleWriter
     {
-        public void Print()
+        public virtual void Print()
         {
             var calculator = new StringCalculatorWorker();
            

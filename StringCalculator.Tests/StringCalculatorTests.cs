@@ -1,5 +1,7 @@
 using System;
+using StringCalculator;
 using NUnit.Framework;
+
 
 namespace StringCalculator.Tests
 {
