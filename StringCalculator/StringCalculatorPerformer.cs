@@ -17,11 +17,11 @@ namespace StringCalculator
 
             numbers = numbers.Replace(@"\n", DefaultSeparator);
 
-            var customSeparators = new List<string>() { DefaultSeparator };
+            var customSeparators = new List<string>() {DefaultSeparator};
 
             if (numbers.StartsWith("//"))
             {
-                (numbers, customSeparators) = ExtractCustomSeparators(numbers);
+                (numbers, customSeparators) = ExtractCustomSeparators(numbers, customSeparators);
             }
 
             var separators = customSeparators.ToArray();
@@ -32,9 +32,8 @@ namespace StringCalculator
             return CalculateSum(convertedNumbers);
         }
 
-        public (string, List<string>) ExtractCustomSeparators(string numbers)
+        public (string, List<string>) ExtractCustomSeparators(string numbers, List<string> separators)
         {
-            var separators = new List<string>() { DefaultSeparator };
 
             numbers = numbers.Remove(0, 2); //removes // from string
 
