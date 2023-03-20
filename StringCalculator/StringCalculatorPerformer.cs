@@ -108,9 +108,8 @@ namespace StringCalculator
         public void ThrowExceptionIfNumberIsNegative(int[] separatedNumbers)
         {
             var exceptionMessage = "negatives are not allowed: ";
-            var negativeNumbers = separatedNumbers.Where(p => p < 0);
 
-            var message = string.Join(" ", negativeNumbers);
+            var message = string.Join(" ", separatedNumbers);
 
             throw new Exception(exceptionMessage + message);
         }
