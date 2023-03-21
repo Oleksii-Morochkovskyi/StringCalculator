@@ -50,13 +50,13 @@ namespace StringCalculator
 
                 return defaultSeparators;
             }
-           
-            var lengthOfSeparators = separators.Length - 4; //length of separators without 3 symbols from the start and 1 from the end
-            var separatorsWithNoStartEndSymbols = separators.Substring(3, lengthOfSeparators);
-            var customSeparators = separatorsWithNoStartEndSymbols.Split("][");
-            var allSeparators = customSeparators.Union(defaultSeparators).ToList();
 
-            return allSeparators;
+            var separatorsWithNoSlashes = separators.Substring(2); //removes \\ from the string
+            var lengthOfSeparatorsWithoutFirstAndLastBracket = separatorsWithNoSlashes.Length-2; //length of separators without 3 symbols from the start and 1 from the end
+            var separatorsWithNoStartEndSymbols = separatorsWithNoSlashes.Substring(1, lengthOfSeparatorsWithoutFirstAndLastBracket);
+            var customSeparators = separatorsWithNoStartEndSymbols.Split("][");
+
+            return customSeparators;
         }
 
         private int CalculateSum(IEnumerable<int> numbers)
