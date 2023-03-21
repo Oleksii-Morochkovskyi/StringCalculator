@@ -8,14 +8,16 @@ namespace StringCalculator
     {
         private const string DefaultSeparator = ",";
 
-        public int Add(string numbers)
+        public int Add(string input)
         {
-            if (string.IsNullOrEmpty(numbers))
+            if (string.IsNullOrEmpty(input))
             {
                 return 0;
             }
 
             IList<string> separators = new List<string> { DefaultSeparator, @"\n" };
+
+            var numbers = input;
 
             if (numbers.StartsWith("//"))
             {
@@ -34,9 +36,7 @@ namespace StringCalculator
         private IList<int> ExtractNumbers(string numbers, IList<string> customSeparators)
         {
             var separators = customSeparators.ToArray();
-
             var separatedNumbers = numbers.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
             var convertedNumbers = separatedNumbers.Select(p => int.Parse(p)).ToList();
 
             return convertedNumbers;
@@ -52,11 +52,8 @@ namespace StringCalculator
             }
            
             var lengthOfSeparators = separators.Length - 4; //length of separators without 3 symbols from the start and 1 from the end
-
             var separatorsWithNoStartEndSymbols = separators.Substring(3, lengthOfSeparators);
-
             var customSeparators = separatorsWithNoStartEndSymbols.Split("][");
-
             var allSeparators = customSeparators.Union(defaultSeparators).ToList();
 
             return allSeparators;
@@ -66,21 +63,21 @@ namespace StringCalculator
         {
             var maxNumber = 1000;
 
-            var negatives = numbers.Where(p => p < 0);
+            var negativeNumbers = numbers.Where(p => p < 0);
 
-            if (negatives.Any())
+            if (negativeNumbers.Any())
             {
-                ThrowExceptionIfNumberIsNegative(negatives);
+                ThrowExceptionIfNumberIsNegative(negativeNumbers);
             }
 
             return numbers.Where(p => p <= maxNumber).Sum();
         }
 
-        private void ThrowExceptionIfNumberIsNegative(IEnumerable<int> negatives)
+        private void ThrowExceptionIfNumberIsNegative(IEnumerable<int> negativeNumbers)
         {
             var exceptionMessage = "negatives are not allowed: ";
 
-            var message = string.Join(" ", negatives);
+            var message = string.Join(" ", negativeNumbers);
 
             throw new Exception(exceptionMessage + message);
         }
