@@ -19,7 +19,7 @@ namespace StringCalculator
 
             if (numbers.StartsWith("//"))
             {
-                var separatedData = SplitSeparatorsFromNumbers(numbers);
+                var separatedData = numbers.Split(@"\n");
 
                 separators = ExtractCustomSeparators(separatedData[0], separators); //separatedData[0] - delimiters separated from numbers
 
@@ -42,29 +42,24 @@ namespace StringCalculator
             return convertedNumbers;
         }
 
-        private string[] SplitSeparatorsFromNumbers(string numbers)
-        {
-            return numbers.Split(@"\n");
-        }
-
         private IList<string> ExtractCustomSeparators(string separators, IList<string> defaultSeparators)
         {
-            if (separators[2] == '[')
+            if (separators[2] != '[')
             {
-                var lengthOfSeparators = separators.Length - 4; //length of separators without 3 symbols from the start and 1 from the end
-                
-                var separatorsWithNoStartEndSymbols = separators.Substring(3, lengthOfSeparators);
+                defaultSeparators.Add(separators[2].ToString()); //if custom separator is one-character, it is located at separators[2] 
 
-                var customSeparators = separatorsWithNoStartEndSymbols.Split("][");
-
-                var allSeparators = customSeparators.Union(defaultSeparators).ToList();
-
-                return allSeparators;
+                return defaultSeparators;
             }
+           
+            var lengthOfSeparators = separators.Length - 4; //length of separators without 3 symbols from the start and 1 from the end
 
-            defaultSeparators.Add(separators[2].ToString()); //if custom separator is one-character, it is located at separators[2] 
+            var separatorsWithNoStartEndSymbols = separators.Substring(3, lengthOfSeparators);
 
-            return defaultSeparators;
+            var customSeparators = separatorsWithNoStartEndSymbols.Split("][");
+
+            var allSeparators = customSeparators.Union(defaultSeparators).ToList();
+
+            return allSeparators;
         }
 
         private int CalculateSum(IEnumerable<int> numbers)
