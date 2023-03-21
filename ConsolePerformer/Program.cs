@@ -1,15 +1,16 @@
 ﻿using System;
 
 
-namespace StringCalculator
+namespace ConsolePerformer
 {
-    class Program
+    internal class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
-            var writer = new ConsoleWriter();
+            
+            //var writer = new ConsoleWriter(consoleIO);
 
-            writer.Print();
+           // writer.Print();
         }
     }
 }

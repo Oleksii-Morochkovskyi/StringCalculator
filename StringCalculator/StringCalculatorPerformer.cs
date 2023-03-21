@@ -15,77 +15,56 @@ namespace StringCalculator
                 return 0;
             }
 
-            IList<string> customSeparators = new List<string>() { DefaultSeparator, @"\n" };
+            IList<string> separators = new List<string> { DefaultSeparator, @"\n" };
 
             if (numbers.StartsWith("//"))
             {
-                customSeparators = ExtractCustomSeparators(numbers, customSeparators);
+                var separatedData = SplitSeparatorsFromNumbers(numbers);
 
-                var separatorsDeclarationLength = numbers.IndexOf(@"\n");
+                separators = ExtractCustomSeparators(separatedData[0], separators); //separatedData[0] - delimiters separated from numbers
 
-                numbers = numbers.Remove(0, separatorsDeclarationLength);
+                numbers = separatedData[1]; //numbers separated from delimiters
             }
 
+            var extractedNumbers = ExtractNumbers(numbers, separators);
+
+            return CalculateSum(extractedNumbers);
+        }
+
+        private IList<int> ExtractNumbers(string numbers, IList<string> customSeparators)
+        {
             var separators = customSeparators.ToArray();
 
             var separatedNumbers = numbers.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
-            var convertedNumbers = separatedNumbers.Select(p => int.Parse(p));
+            var convertedNumbers = separatedNumbers.Select(p => int.Parse(p)).ToList();
 
-            return CalculateSum(convertedNumbers);
+            return convertedNumbers;
         }
 
-        private IList<string> ExtractCustomSeparators(string numbers, IList<string> separators)
+        private string[] SplitSeparatorsFromNumbers(string numbers)
         {
-            if (numbers[2] == '[' && numbers.Contains(']')) //custom separator in *numbers* starts from index = 2
-            {
-                var leftBracketIndex = numbers.IndexOf('[');
-                var rightBracketIndex = numbers.IndexOf(']');
-
-                separators = GetCustomSeparators(numbers, leftBracketIndex, rightBracketIndex, separators);
-            }
-
-            separators.Add(numbers[2].ToString()); //custom separator in *numbers* starts from index = 2
-
-            return separators;
+            return numbers.Split(@"\n");
         }
 
-        private IList<string> GetCustomSeparators(string numbers, int leftBracketIndex, int rightBracketIndex, IList<string> separators)
+        private IList<string> ExtractCustomSeparators(string separators, IList<string> defaultSeparators)
         {
-            var isDefaultSeparator = numbers[rightBracketIndex + 1] == char.Parse(DefaultSeparator);
-            var isNewLineSeparator = numbers.Substring(rightBracketIndex + 1, 2) == @"\n";
-
-            if (numbers[rightBracketIndex + 1] == '[' || isDefaultSeparator || isNewLineSeparator)
+            if (separators[2] == '[')
             {
-                separators = AddSeparators(numbers, leftBracketIndex, rightBracketIndex, separators);
-            }
-
-            if (numbers.IndexOf(']', rightBracketIndex + 1) != -1) //rightBracketIndex + 1 - start from next element
-            {
-                rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
+                var lengthOfSeparators = separators.Length - 4; //length of separators without 3 symbols from the start and 1 from the end
                 
-                separators = GetCustomSeparators(numbers, leftBracketIndex, rightBracketIndex, separators);
+                var separatorsWithNoStartEndSymbols = separators.Substring(3, lengthOfSeparators);
+
+                var customSeparators = separatorsWithNoStartEndSymbols.Split("][");
+
+                var allSeparators = customSeparators.Union(defaultSeparators).ToList();
+
+                return allSeparators;
             }
 
-            return separators;
-        }
+            defaultSeparators.Add(separators[2].ToString()); //if custom separator is one-character, it is located at separators[2] 
 
-        private IList<string> AddSeparators(string numbers, int leftBracketIndex, int rightBracketIndex, IList<string> separators)
-        {
-            var separatorLength = numbers.IndexOf(']', rightBracketIndex) - leftBracketIndex - 1;
-            var separator = numbers.Substring(leftBracketIndex + 1, separatorLength);
-
-            separators.Add(separator);
-
-            if (numbers.IndexOf('[', rightBracketIndex + 1) != -1)
-            {
-                leftBracketIndex = numbers.IndexOf('[', rightBracketIndex + 1);
-                rightBracketIndex = numbers.IndexOf(']', rightBracketIndex + 1);
-
-                separators = GetCustomSeparators(numbers, leftBracketIndex, rightBracketIndex, separators);
-            }
-
-            return separators;
+            return defaultSeparators;
         }
 
         private int CalculateSum(IEnumerable<int> numbers)

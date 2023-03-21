@@ -1,27 +1,30 @@
 ﻿using System;
+using StringCalculator;
 
 
-namespace StringCalculator
+namespace ConsolePerformer
 {
-    public class ConsoleWriter
+    public class ConsoleWriter : IConsoleIO
     {
-        public virtual void Print()
+        private readonly IConsoleIO _consoleIO;
+        public ConsoleWriter(IConsoleIO consoleIo)
         {
-            var calculator = new StringCalculatorWorker();
-           
-            while (true)
-            {
-                Console.WriteLine("Enter your string: ");
-                var input = Console.ReadLine();
-                try
-                {
-                    Console.WriteLine("Result: " + calculator.Add(input));
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message);
-                }
-            }
+            _consoleIO = consoleIo;
         }
+        public void Print()
+        {
+            _consoleIO.WriteLine("Hello");
+            //var output = _consoleIO.ReadLine();
+        }
+
+        public void WriteLine(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public string ReadLine()
+        {
+            return Console.ReadLine();
+        } 
     }
 }

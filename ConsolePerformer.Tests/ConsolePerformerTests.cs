@@ -1,25 +1,30 @@
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using Moq;
-using System;
-using StringCalculator;
+using ConsolePerformer;
 
-namespace StringCalculator.Tests
+namespace ConsolePerformer.Tests
 {
     public class ConsolePerformerTests
     {
-        private readonly ConsoleWriter printer;
+        private ConsoleWriter _printer;
+        private Mock<IConsoleIO> _writerMock;
         
         [SetUp]
         public void Setup()
         {
-            var writerMock = new Mock<ConsoleWriter>();
+            _writerMock = new Mock<IConsoleIO>();
+            
         }
 
-        //[Test]
+        [Test]
         public void Print_ShouldReturnString_IfStringIsNotEmpty()
         {
-            Assert.Pass();
+            _writerMock.Setup(x => x.WriteLine(It.IsAny<string>()));
+            _printer = new ConsoleWriter(_writerMock.Object);
+            
+            _printer.WriteLine("Hello");
+
+            _writerMock.Verify(t => t.WriteLine("Hello"), Times.Once());
         }
     }
 }
