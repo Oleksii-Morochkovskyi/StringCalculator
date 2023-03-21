@@ -5,12 +5,13 @@ namespace ConsolePerformer
 {
     internal class Program
     {
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
+            var writer = new ConsoleWriter();
             
-            //var writer = new ConsoleWriter(consoleIO);
-
-           // writer.Print();
+            var console = new ConsoleProcessor(writer);
+            
+            console.StartCalculator();
         }
     }
 }

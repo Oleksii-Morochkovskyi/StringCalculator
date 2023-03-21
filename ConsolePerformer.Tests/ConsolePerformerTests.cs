@@ -7,24 +7,37 @@ namespace ConsolePerformer.Tests
     public class ConsolePerformerTests
     {
         private ConsoleWriter _printer;
-        private Mock<IConsoleIO> _writerMock;
-        
+        private Mock<ConsoleWriter> _writerMock;
+
         [SetUp]
         public void Setup()
         {
-            _writerMock = new Mock<IConsoleIO>();
+            _printer = new ConsoleWriter();
+            _writerMock = new Mock<ConsoleWriter>();
+
+        }
+
+        [Test]
+        public void WriteLine_ShouldPrintString_IfStringIsNotEmpty()
+        {
+            _writerMock.Setup(x => x.WriteLine(It.IsAny<string>()));
+            var message = "Hello";
+
+            _writerMock.Object.WriteLine(message);
+
+            _writerMock.Verify(p => p.WriteLine(message),Times.Once);
             
         }
 
         [Test]
-        public void Print_ShouldReturnString_IfStringIsNotEmpty()
+        public void Report_ShouldReturnString_IfStringIsNotEmpty()
         {
-            _writerMock.Setup(x => x.WriteLine(It.IsAny<string>()));
-            _printer = new ConsoleWriter(_writerMock.Object);
-            
-            _printer.WriteLine("Hello");
+            _writerMock.Setup(x => x.ReadLine()).Returns("AAA");
 
-            _writerMock.Verify(t => t.WriteLine("Hello"), Times.Once());
+            _writerMock.Object.ReadLine();
+
+            _writerMock.Verify(p => p.ReadLine(), Times.Once);
+
         }
     }
 }
