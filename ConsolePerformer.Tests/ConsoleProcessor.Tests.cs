@@ -21,13 +21,15 @@ namespace ConsolePerformer.Tests
         }
 
         [Test]
-        public void StartCalculator_ValidInput_ShouldPrintString()
+        public void StartCalculator_StringWithNumbersThenEmptyString_ShouldPrintSumAndFinishProgram()
         {
             //Arrange
             var input = "1,2,3";
+
             _writerMock.SetupSequence(x => x.ReadLine())
                 .Returns(input)
                 .Returns(string.Empty);
+
             _calculatorMock.Setup(x => x.Add("1,2,3")).Returns(6);
 
             //Act
@@ -40,27 +42,12 @@ namespace ConsolePerformer.Tests
         }
 
         [Test]
-        public void StartCalculator_EmptyString_ShouldPrintString()
-        {
-            //Arrange
-            _writerMock.Setup(x => x.ReadLine()).Returns(string.Empty);
-            _calculatorMock.Setup(x => x.Add(string.Empty)).Returns(0);
-
-            //Act
-            _processor.StartCalculator();
-
-            //Assert
-            _writerMock.Verify(p => p.WriteLine("Result: 0"), Times.Once);
-        }
-
-        [Test]
-        public void StartCalculator_StringWithNegativeNumbers_ShouldThrowException()
+        public void StartCalculator_StringWithNegativeNumbers_ShouldPrintMessageWithFoundNegativeNumbers()
         {
             //Arrange
             var input = "1,-2,3";
-            _writerMock.SetupSequence(x => x.ReadLine())
-                .Returns(input)
-                .Returns(string.Empty);
+
+            _writerMock.SetupSequence(x => x.ReadLine()).Returns(input);
             _calculatorMock.Setup(x => x.Add("1,-2,3")).Throws<Exception>();
 
             //Act
@@ -68,7 +55,6 @@ namespace ConsolePerformer.Tests
 
             //Assert
             _writerMock.Verify(p => p.WriteLine("Negatives are not allowed: -2"), Times.Once);
-            _writerMock.Verify(p => p.WriteLine("Result: 0"), Times.Once);
         }
     }
 }
