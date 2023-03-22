@@ -3,7 +3,7 @@ using StringCalculator;
 
 namespace ConsolePerformer
 {
-    internal class ConsoleProcessor
+    public class ConsoleProcessor
     {
         private readonly ConsoleWriter _writer;
 
@@ -12,7 +12,7 @@ namespace ConsolePerformer
             _writer = writer;
         }
 
-        public void StartCalculator()
+        public virtual void StartCalculator()
         {
             var calculator = new StringCalculatorWorker();
 
@@ -40,4 +40,5 @@ namespace ConsolePerformer
 
         }
     }
+
 }

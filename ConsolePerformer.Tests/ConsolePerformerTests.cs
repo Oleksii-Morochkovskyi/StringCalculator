@@ -6,15 +6,12 @@ namespace ConsolePerformer.Tests
 {
     public class ConsolePerformerTests
     {
-        private ConsoleWriter _printer;
         private Mock<ConsoleWriter> _writerMock;
 
         [SetUp]
         public void Setup()
         {
-            _printer = new ConsoleWriter();
             _writerMock = new Mock<ConsoleWriter>();
-
         }
 
         [Test]

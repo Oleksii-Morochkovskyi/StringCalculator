@@ -8,7 +8,7 @@ namespace StringCalculator
     {
         private const string DefaultSeparator = ",";
 
-        public int Add(string input)
+        public virtual int Add(string input)
         {
             if (string.IsNullOrEmpty(input))
             {
@@ -75,7 +75,7 @@ namespace StringCalculator
 
         private void ThrowExceptionIfNumberIsNegative(IEnumerable<int> negativeNumbers)
         {
-            var exceptionMessage = "negatives are not allowed: ";
+            var exceptionMessage = "Negatives are not allowed: ";
 
             var message = string.Join(" ", negativeNumbers);
 
