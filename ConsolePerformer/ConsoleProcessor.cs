@@ -14,13 +14,20 @@ namespace ConsolePerformer
             _calculator = new StringCalculatorWorker();
         }
 
-        public virtual void StartCalculator()
+        public void StartCalculator()
         {
             _writer.WriteLine("Enter comma separated numbers (Enter to exit): ");
             
             while (true)
             {
                 var input = _writer.ReadLine();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    _writer.WriteLine("\nResult: 0");
+
+                    return;
+                }
 
                 PrintSum(input);
                 
@@ -33,11 +40,6 @@ namespace ConsolePerformer
             try
             {
                 _writer.WriteLine("\nResult: " + _calculator.Add(numbers));
-
-                if (string.IsNullOrEmpty(numbers))
-                {
-                    System.Environment.Exit(1);
-                }
             }
             catch (Exception exception)
             {

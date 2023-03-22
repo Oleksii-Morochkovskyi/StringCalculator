@@ -5,7 +5,6 @@ using StringCalculator;
 
 namespace ConsolePerformer.Tests
 {
-    [TestFixture]
     public class ConsoleProcessorTests
     {
         private ConsoleProcessor _processor;
@@ -37,7 +36,6 @@ namespace ConsolePerformer.Tests
 
             //Assert
             _writerMock.Verify(p => p.WriteLine("\nResult: 6"), Times.Once);
-            _writerMock.Verify(p => p.WriteLine("\nYou can enter other numbers (enter to exit)?"), Times.Once);
             _writerMock.Verify(p => p.WriteLine("\nResult: 0"), Times.Once);
 
         }
@@ -56,6 +54,24 @@ namespace ConsolePerformer.Tests
 
             //Assert
             _writerMock.Verify(p => p.WriteLine("Negatives are not allowed: -2"), Times.Once);
+        }
+
+        [Test]
+        public void StartCalculator_StringsWithNumbers_ShouldPrintCorrectMessages()
+        {
+            //Arrange
+            var input = "1,2,3";
+
+            _writerMock.SetupSequence(x => x.ReadLine())
+                .Returns(input)
+                .Returns(string.Empty);
+
+            //Act
+            _processor.StartCalculator();
+
+            //Assert
+            _writerMock.Verify(p => p.WriteLine("Enter comma separated numbers (Enter to exit): "), Times.Once);
+            _writerMock.Verify(p => p.WriteLine("\nYou can enter other numbers (enter to exit)?"), Times.Once);
         }
     }
 }
