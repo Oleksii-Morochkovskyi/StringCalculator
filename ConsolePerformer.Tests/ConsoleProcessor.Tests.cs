@@ -36,8 +36,9 @@ namespace ConsolePerformer.Tests
             _processor.StartCalculator();
 
             //Assert
-            _writerMock.Verify(p => p.WriteLine("Result: 6"), Times.Once);
-            _writerMock.Verify(p => p.WriteLine("Result: 0"), Times.Once);
+            _writerMock.Verify(p => p.WriteLine("\nResult: 6"), Times.Once);
+            _writerMock.Verify(p => p.WriteLine("\nYou can enter other numbers (enter to exit)?"), Times.Once);
+            _writerMock.Verify(p => p.WriteLine("\nResult: 0"), Times.Once);
 
         }
 

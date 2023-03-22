@@ -16,29 +16,33 @@ namespace ConsolePerformer
 
         public virtual void StartCalculator()
         {
+            _writer.WriteLine("Enter comma separated numbers (Enter to exit): ");
+            
             while (true)
             {
-                _writer.WriteLine("Enter your string: (Enter to exit)");
-
                 var input = _writer.ReadLine();
 
-                if (string.IsNullOrEmpty(input))
-                {
-                    _writer.WriteLine("Result: " + _calculator.Add(input));
+                CalculateSum(input);
+                
+                _writer.WriteLine("\nYou can enter other numbers (enter to exit)?");
+            }
+        }
 
-                    break;
-                }
+        public void CalculateSum(string numbers)
+        {
+            try
+            {
+                _writer.WriteLine("\nResult: " + _calculator.Add(numbers));
 
-                try
+                if (string.IsNullOrEmpty(numbers))
                 {
-                    _writer.WriteLine("Result: " + _calculator.Add(input));
-                }
-                catch (Exception exception)
-                {
-                    _writer.WriteLine(exception.Message);
+                    System.Environment.Exit(1);
                 }
             }
-
+            catch (Exception exception)
+            {
+                _writer.WriteLine(exception.Message);
+            }
         }
     }
 
