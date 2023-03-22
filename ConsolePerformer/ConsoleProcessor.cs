@@ -22,13 +22,13 @@ namespace ConsolePerformer
             {
                 var input = _writer.ReadLine();
 
-                CalculateSum(input);
+                PrintSum(input);
                 
                 _writer.WriteLine("\nYou can enter other numbers (enter to exit)?");
             }
         }
 
-        public void CalculateSum(string numbers)
+        public void PrintSum(string numbers)
         {
             try
             {
