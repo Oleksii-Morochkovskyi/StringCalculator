@@ -5,10 +5,10 @@ namespace ConsolePerformer
 {
     public class ConsoleProcessor
     {
-        private readonly ConsoleWriter _writer;
+        private readonly ConsoleWrapper _writer;
         private readonly StringCalculatorWorker _calculator;
 
-        public ConsoleProcessor(ConsoleWriter writer)
+        public ConsoleProcessor(ConsoleWrapper writer)
         {
             _writer = writer;
             _calculator = new StringCalculatorWorker();

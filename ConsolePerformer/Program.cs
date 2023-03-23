@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            var writer = new ConsoleWriter();
+            var writer = new ConsoleWrapper();
 
             var console = new ConsoleProcessor(writer);
 

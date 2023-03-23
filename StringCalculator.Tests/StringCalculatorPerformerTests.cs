@@ -3,9 +3,9 @@ using StringCalculator;
 using NUnit.Framework;
 
 
-namespace StringCalculator.Tests
+namespace StringCalculatorTests
 {
-    public class StringCalculatorTests
+    public class StringCalculatorPerformerTests
     {
         private StringCalculatorWorker _calculator;
 

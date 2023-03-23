@@ -2,19 +2,20 @@
 using NUnit.Framework;
 using Moq;
 using StringCalculator;
+using ConsolePerformer;
 
-namespace ConsolePerformer.Tests
+namespace ConsolePerformerTests
 {
     public class ConsoleProcessorTests
     {
         private ConsoleProcessor _processor;
         private Mock<StringCalculatorWorker> _calculatorMock;
-        private Mock<ConsoleWriter> _writerMock;
+        private Mock<ConsoleWrapper> _writerMock;
 
         [SetUp]
         public void Setup()
         {
-            _writerMock = new Mock<ConsoleWriter>();
+            _writerMock = new Mock<ConsoleWrapper>();
             _processor = new ConsoleProcessor(_writerMock.Object);
             _calculatorMock = new Mock<StringCalculatorWorker>();
         }

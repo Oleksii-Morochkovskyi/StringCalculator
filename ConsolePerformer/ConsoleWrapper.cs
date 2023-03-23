@@ -2,7 +2,7 @@
 
 namespace ConsolePerformer
 {
-    public class ConsoleWriter
+    public class ConsoleWrapper
     {
         public virtual void WriteLine(string message)
         {

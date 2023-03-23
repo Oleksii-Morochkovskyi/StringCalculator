@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.35
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringCalculator", "StringCalculator\StringCalculator.csproj", "{0EE565CE-F10C-457D-9D03-00282F436FF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringCalculator.Tests", "StringCalculator.Tests\StringCalculator.Tests.csproj", "{585F639A-E2BC-4D5B-BEF8-9621D1468F78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringCalculatorTests", "StringCalculator.Tests\StringCalculatorTests.csproj", "{585F639A-E2BC-4D5B-BEF8-9621D1468F78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsolePerformer.Tests", "ConsolePerformer.Tests\ConsolePerformer.Tests.csproj", "{4965A286-711D-47DD-AD8C-7956F9CB9AF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsolePerformerTests", "ConsolePerformer.Tests\ConsolePerformerTests.csproj", "{4965A286-711D-47DD-AD8C-7956F9CB9AF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsolePerformer", "ConsolePerformer\ConsolePerformer.csproj", "{7AC17576-186A-407E-A745-6CDFC295EAA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsolePerformer", "ConsolePerformer\ConsolePerformer.csproj", "{7AC17576-186A-407E-A745-6CDFC295EAA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
